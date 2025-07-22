@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { getAll, update } from "./BooksAPI";
 import BookList from "./BookList";
+import SearchPage from "./SearchPage";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
@@ -13,7 +14,6 @@ function App() {
 
   const loadBookshelves = () => {
     getAll().then((books) => {
-      console.log(books);
       setBookshelves({
         currentlyReading: {
           title: "Currently Reading",
@@ -39,31 +39,17 @@ function App() {
     update(book, shelf).then(() => {
       loadBookshelves();
     });
+  }
 
+  const searchPageClosed = () => {
+    setShowSearchpage(false);
+    loadBookshelves();
   }
 
   return (
     <div className="app">
       {showSearchPage ? (
-        <div className="search-books">
-          <div className="search-books-bar">
-            <a
-              className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
-            >
-              Close
-            </a>
-            <div className="search-books-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search by title, author, or ISBN"
-              />
-            </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid"></ol>
-          </div>
-        </div>
+        <SearchPage onClose={searchPageClosed} />
       ) : (
         <div className="list-books">
           <div className="list-books-title">
