@@ -6,6 +6,8 @@ const BookshelfChanger = ({initialValue, bookshelfSelected}) => {
     useEffect(() => {
         if (initialValue) { 
             setSelectedOption(initialValue);
+        } else {
+            setSelectedOption('none');
         }
     }, [initialValue]);
 
