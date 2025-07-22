@@ -11,19 +11,23 @@ const SearchPage = ({onClose}) => {
     const [query, setQuery] = useState('');
     
     useEffect(() => {
-        search(query).then((results) => {
-            if (results && !results.error) {
-                results.forEach((book) => {
-                    const savedBook = savedBooks.find((b) => b.id === book.id);
-                    if (savedBook) {
-                        book.shelf = savedBook.shelf;
-                    }
-                });
-                setBooks(results);
-            } else {
-                setBooks([]);
-            }
-        });
+        if(query && query.trim() !== '') {
+            search(query).then((results) => {
+                if (results && !results.error) {
+                    results.forEach((book) => {
+                        const savedBook = savedBooks.find((b) => b.id === book.id);
+                        if (savedBook) {
+                            book.shelf = savedBook.shelf;
+                        }
+                    });
+                    setBooks(results);
+                } else {
+                    setBooks([]);
+                }
+            });
+        } else {
+            setBooks([]);
+        }
     }, [query]);
 
     useEffect(() => {
