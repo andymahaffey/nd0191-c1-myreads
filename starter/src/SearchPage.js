@@ -63,16 +63,7 @@ const SearchPage = ({onClose}) => {
                     inputChanged={setQuery}
                     debounceMs={250}
                     disabled={loading}
-                />
-                {/* <input
-                    type="text"
-                    placeholder="Search by title, author, or ISBN"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    disabled={loading} 
-                >
-                </input> */}
-                    
+                />                    
             </div>
         </div>
         <div className="search-books-results">
