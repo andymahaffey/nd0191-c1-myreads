@@ -1,6 +1,10 @@
 import BookshelfChanger from "./BookshelfChanger";
 
-const BookCard = ({ book }) => {    
+const BookCard = ({ book, bookshelfChanged }) => {
+    const bookshelfSelected = (shelf) => {
+        bookshelfChanged(shelf, book);
+    };
+
     return <div className="book">
         <div className="book-top">
             <div
@@ -11,7 +15,7 @@ const BookCard = ({ book }) => {
                     backgroundImage: `url(${book.imageLinks?.thumbnail || ''})`
                 }}                
             ></div>
-            <BookshelfChanger />
+            <BookshelfChanger bookshelfSelected={bookshelfSelected} initialValue={book.shelf} />
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors?.join(', ')}</div>

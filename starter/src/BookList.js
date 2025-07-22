@@ -1,9 +1,9 @@
 import BookCard from "./BookCard";
 
-const BookList = ({bookshelf}) => {
+const BookList = ({bookshelf, bookshelfChanged}) => {
     const listofBooks = bookshelf.books.map((book) => (
         <li key={book.id}>
-            <BookCard book={book} />
+            <BookCard book={book} bookshelfChanged={bookshelfChanged} />
         </li>
     ));
 
