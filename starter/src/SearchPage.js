@@ -17,8 +17,6 @@ const SearchPage = ({onClose}) => {
                     const savedBook = savedBooks.find((b) => b.id === book.id);
                     if (savedBook) {
                         book.shelf = savedBook.shelf;
-                    } else {
-                        book.shelf = 'none';
                     }
                 });
                 setBooks(results);

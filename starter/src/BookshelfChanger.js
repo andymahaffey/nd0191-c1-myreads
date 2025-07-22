@@ -7,7 +7,7 @@ const BookshelfChanger = ({initialValue, bookshelfSelected}) => {
         if (initialValue) { 
             setSelectedOption(initialValue);
         } else {
-            setSelectedOption('none');
+            setSelectedOption('unset');
         }
     }, [initialValue]);
 
@@ -22,7 +22,7 @@ const BookshelfChanger = ({initialValue, bookshelfSelected}) => {
 
     return <div className="book-shelf-changer">
         <select value={selectedOption} onChange={handleChange}>
-            <option value="none" disabled>
+            <option value="unset" disabled>
             Move to...
             </option>
             <option value="currentlyReading">
