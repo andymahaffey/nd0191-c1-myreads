@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import DotLoader from "react-spinners/DotLoader";
 import { getAll, search, update } from "./BooksAPI";
 import BookCard from "./BookCard";
-import DotLoader from "react-spinners/DotLoader";
 import DebouncedInput from "./DebouncedInput";
 
-const SearchPage = ({onClose}) => {
+const SearchPage = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [savedBooks, setSavedBooks] = useState([]);
@@ -54,12 +55,9 @@ const SearchPage = ({onClose}) => {
 
     return <div className="search-books">
         <div className="search-books-bar">
-            <a
-                className="close-search"
-                onClick={onClose}
-            >
+            <Link to="/" className="close-search">
                 Close
-            </a>
+            </Link>
             <div className="search-books-input-wrapper">
                 <DebouncedInput
                     inputChanged={setQuery}
