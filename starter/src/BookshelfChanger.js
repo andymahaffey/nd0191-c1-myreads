@@ -7,7 +7,7 @@ const BookshelfChanger = ({initialValue, bookshelfSelected}) => {
         if (initialValue) { 
             setSelectedOption(initialValue);
         } else {
-            setSelectedOption('unset');
+            setSelectedOption('none');
         }
     }, [initialValue]);
 
