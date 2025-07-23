@@ -1,0 +1,82 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import DotLoader from "react-spinners/DotLoader";
+import { getAll, search, update } from "./BooksAPI";
+import BookCard from "./BookCard";
+import DebouncedInput from "./DebouncedInput";
+
+const SearchPage = () => {
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [savedBooks, setSavedBooks] = useState([]);
+    const [query, setQuery] = useState('');
+    
+    useEffect(() => {
+        if(query && query.trim() !== '') {
+            search(query).then((results) => {
+                if (results && !results.error) {
+                    results.forEach((book) => {
+                        const savedBook = savedBooks.find((b) => b.id === book.id);
+                        if (savedBook) {
+                            book.shelf = savedBook.shelf;
+                        }
+                    });
+                    setBooks(results);
+                } else {
+                    setBooks([]);
+                }
+            });
+        } else {
+            setBooks([]);
+        }
+    }, [query]);
+
+    useEffect(() => {
+        setLoading(true);
+        loadSavedBooks().finally(() => {
+            setLoading(false);
+        });
+    }, []);
+    
+    const loadSavedBooks = () => {
+        return getAll().then((books) => {
+            setSavedBooks(books);        
+        });
+    }
+
+    const bookshelfChanged = (shelf, book) => {
+        setLoading(true);
+        update(book, shelf).then(() => {
+            return loadSavedBooks();
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
+
+    return <div className="search-books">
+        <div className="search-books-bar">
+            <Link to="/" className="close-search">
+                Close
+            </Link>
+            <div className="search-books-input-wrapper">
+                <DebouncedInput
+                    inputChanged={setQuery}
+                    debounceMs={250}
+                    disabled={loading}
+                />                    
+            </div>
+        </div>
+        <div className="search-books-results">
+            {loading && <div className="loading-container"><DotLoader size={30} /></div>}
+            <ol className="books-grid">
+                {books.map((book) => (
+                    <li key={book.id}>
+                        <BookCard book={book} bookshelfChanged={bookshelfChanged} />
+                    </li>
+                ))}
+            </ol>
+        </div>
+    </div>
+};
+
+export default SearchPage;
